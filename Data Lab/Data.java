@@ -65,10 +65,10 @@ public class Data {
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))){
             br.readLine(); // Skip first line
             while ((line = br.readLine()) != null){
-                String[] values = line.split(",");
+                String[] values = line.split(", ");
                 String title = values[0];
-                double rating = Double.parseDouble(values[8]);
-                double meta = Double.parseDouble(values[7]);
+                double rating = Double.parseDouble(values[7]);
+                double meta = Double.parseDouble(values[6]);
                 String date = values[2];
                 String genre = values[4];
 
@@ -96,6 +96,17 @@ public class Data {
              }
             }
         }
+
+        double highestMetaRating = 0;
+        for (Data data : dataList){
+            if (data != null){
+                if (data.getMetaScore() > highestMetaRating){
+                highestMetaRating = data.getMetaScore();
+                game = data.getTitle();
+             }
+            }
+        }
         System.out.println("The highest rating is " + highestRating + " for " + game);
+        System.out.println("The highest meta score is " + highestMetaRating + " for " + game);
     }
 }
