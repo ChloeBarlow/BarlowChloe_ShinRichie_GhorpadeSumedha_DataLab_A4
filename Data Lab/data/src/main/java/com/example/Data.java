@@ -12,6 +12,8 @@ public class Data {
     private double userRating;
     private String releaseDate;
     private String genre;
+    private double posPercent;
+    private String highestTitle;
 
     // Default constructor
     public Data() {
@@ -183,7 +185,7 @@ public class Data {
 
         // Find which game title has the highest user rating average with its release date & genre
         double highestRating = ratingAvgs[0];
-        String highestTitle = titles[0];
+        highestTitle = titles[0];
         String highestDate = dates[0];
         String highestGenre = genres[0];
         int highestPositiveReviews = numPos[0];
@@ -218,14 +220,24 @@ public class Data {
                 }
             }
         }
-        System.out.println(highestPositiveReviews);
-        System.out.println(highestNumReviews);
+        // Test 
+        //System.out.println(highestPositiveReviews);
+        //System.out.println(highestNumReviews);
+
         // Calculate how many standard deviations above the average the highest rating is
         double numStdDevs = (highestRating - overallAvgRating) / ratingStdDev;
         // Calculate percentage of postive reviews (>=6) in highest rated title
-        double posPercent = ((double) highestPositiveReviews / highestNumReviews) * 100;
+        posPercent = Math.floor( ((double) highestPositiveReviews / highestNumReviews) * 100);
         System.out.println("The game title with the highest user rating average is: [" + highestTitle + "] with an average\nof ["+ highestRating + "], released in ["
                 + highestDate + "] in the [" + highestGenre + "].\nIt is [" + numStdDevs+ "] standard deviations above the overall average in the dataset.");
-        System.out.println("The games positive review percent: " + posPercent + "% out of " + highestNumReviews);
+        System.out.println("The games positive review percent: " + posPercent);
+        System.out.println("Total number of reviews: " + highestNumReviews);
+        scanner.close();
+    }
+    public double getPosPercent(){
+        return posPercent;
+    }
+    public String getHighestTitle(){
+        return highestTitle;
     }
 }

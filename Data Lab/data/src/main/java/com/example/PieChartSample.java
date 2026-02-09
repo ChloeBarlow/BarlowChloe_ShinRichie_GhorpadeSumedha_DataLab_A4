@@ -1,7 +1,5 @@
 package com.example;
 
-import java.util.Scanner;
-
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -31,7 +29,23 @@ public class PieChartSample extends Application {
         final PieChart chart = new PieChart(pieChartData);
         chart.setTitle(gameName + " Review Percentage");
 
-        ((Group) scene.getRoot()).getChildren().add(chart);
+        final Label caption = new Label("");
+        caption.setTextFill(Color.BLACK);
+        caption.setStyle("-fx-font: 24 arial;");
+
+        for (final PieChart.Data data : chart.getData()) {
+            data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED,
+                    new EventHandler<MouseEvent>() {
+                        @Override public void handle(MouseEvent e) {
+                            caption.setTranslateX(e.getSceneX());
+                            caption.setTranslateY(e.getSceneY());
+                            caption.setText(String.valueOf(data.getPieValue()) 
+                                + "%");
+                        }
+                    });
+        }
+
+        ((Group) scene.getRoot()).getChildren().addAll(chart, caption);
         stage.setScene(scene);
         stage.show();
     }
@@ -39,12 +53,8 @@ public class PieChartSample extends Application {
     public static void main(String[] args) {
         Data raw = new Data();
         raw.run();
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("Enter the top game printed: ");
-        gameName = scanner.nextLine();
-        System.out.print("Enter the postive percent printed (Round to hundredths): ");
-        posPercent = scanner.nextDouble();
-        scanner.close();
+        gameName = raw.getHighestTitle();
+        posPercent = raw.getPosPercent();
         launch(args);
     }
 }
